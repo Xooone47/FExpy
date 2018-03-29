@@ -1,7 +1,3 @@
-/**
- * @file 首页路由
- * @author lisiqi06
- */
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import {
