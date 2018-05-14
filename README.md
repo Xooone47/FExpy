@@ -1,6 +1,6 @@
 # FExpy
 
-A quick start SPA project with:
+A quick start SPA with:
 
 Application: react + react router + axios;
 
