@@ -22,7 +22,6 @@ module.exports = {
         contentBase: './build/assets',
         port: 4747,
         inline: true,
-        // historyApiFallback: true,
         historyApiFallback: {
             rewrites: [
                 {
