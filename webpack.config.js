@@ -5,14 +5,12 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const autoprefixer = require('autoprefixer');
 
-const ASSETS_PATH = 'asset/';
-
 module.exports = {
     entry: './src/index.js',
     output: {
-        filename: ASSETS_PATH + 'main.js',
-        path: path.resolve(__dirname, 'build'),
-        publicPath: '/'
+        filename: 'main.js',
+        path: path.resolve(__dirname, 'dist', 'assets'),
+        publicPath: '/assets/'
     },
     resolve: {
         extensions: ['.js', '.jsx', '.json'],
@@ -20,7 +18,7 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     devServer: {
-        contentBase: './build',
+        contentBase: './dist',
         port: 4747,
         inline: true,
         historyApiFallback: {
@@ -98,9 +96,9 @@ module.exports = {
             title: 'FExpy',
             hash: true,
             template: "./src/index.html",
-            filename: 'index.html'
+            filename: '../index.html'
         }),
-        new ExtractTextPlugin(ASSETS_PATH + 'style.css'),
+        new ExtractTextPlugin('style.css'),
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
     ]

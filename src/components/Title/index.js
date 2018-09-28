@@ -1,5 +1,7 @@
 const Title = () => (
-    <h1>FExpy</h1>
+    <div>
+        <h1>FExpy</h1>
+    </div>
 );
 
 export default Title;
