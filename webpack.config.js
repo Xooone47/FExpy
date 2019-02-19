@@ -1,9 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const autoprefixer = require('autoprefixer');
 
 module.exports = (env, argv) => {
     const mode = argv.mode === 'development' ? 'DEV' : 'PROD';
@@ -46,7 +44,7 @@ module.exports = (env, argv) => {
                 {
                     test: /(\.jsx|\.js)$/,
                     use: [
-                        "babel-loader",
+                        'babel-loader',
                         {
                             loader: 'eslint-loader',
                             options: {
@@ -83,27 +81,23 @@ module.exports = (env, argv) => {
                 },
                 {
                     test: /\.(png|svg|jpg|gif)$/,
-                    use: [
-                        'file-loader'
-                    ]
+                    use: ['file-loader']
                 },
                 {
                     test: /\.(woff|woff2|eot|ttf|otf)$/,
-                    use: [
-                      'file-loader'
-                    ]
+                    use: ['file-loader']
                 }
             ]
         },
         plugins: [
             new HtmlWebpackPlugin({
                 title: 'FExpy',
-                template: "./src/index.html",
+                template: './src/index.html',
                 filename: mode === 'DEV' ? 'index.html' : '../index.html'
             }),
             new ExtractTextPlugin('styles.[hash].css'),
             new webpack.NamedModulesPlugin(),
-            new webpack.HotModuleReplacementPlugin(),
+            new webpack.HotModuleReplacementPlugin()
         ]
     };
 };
