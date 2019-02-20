@@ -1,7 +1,9 @@
-const Title = () => (
-    <div>
-        <h1>FExpy</h1>
-    </div>
-);
+const Title = () => {
+    return (
+        <div>
+            <h1>FExpy</h1>
+        </div>
+    );
+};
 
 export default Title;

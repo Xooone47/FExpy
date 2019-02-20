@@ -63,14 +63,13 @@
     "lodash": "^4.17.5",
     "lodash-decorators": "^4.5.0",
     "prop-types": "^15.6.1",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.8.2",
+    "react-dom": "^16.8.2",
     "react-router-dom": "^4.2.2"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test",
-      "pre-push": "npm test"
+      "pre-commit": "npm test"
     }
   }
 }
