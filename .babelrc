@@ -43,5 +43,18 @@
     "presets": [
         "@babel/preset-env",
         "@babel/preset-react"
-    ]
+    ],
+    "env": {
+        "test": {
+            "plugins": [
+                [
+                    "import",
+                    {
+                        "libraryName": "antd",
+                        "style": false
+                    }
+                ]
+            ]
+        }
+    }
 }
