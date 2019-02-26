@@ -1,5 +1,5 @@
 import {shallow, render, mount} from 'enzyme';
-import Title from './index';
+import Title from '../index';
 
 const props = {};
 

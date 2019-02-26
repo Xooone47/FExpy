@@ -1,5 +1,5 @@
 import {shallow} from 'enzyme';
-import Counter from './index';
+import Counter from '../index';
 
 const props = {};
 
