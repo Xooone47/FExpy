@@ -1,8 +1,6 @@
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
-import {
-    Title
-} from '../index';
+import {Title} from '..';
 import styles from './styles.less';
 
 const App = () => (

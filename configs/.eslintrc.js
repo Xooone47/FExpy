@@ -1,4 +1,4 @@
-{
+module.exports = {
     "parser": "babel-eslint",
     "parserOptions": {
         "sourceType": "module",
@@ -17,6 +17,11 @@
     },
     "globals": {
         "features": true
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
     },
     "rules": {
         "accessor-pairs": "warn",
@@ -363,4 +368,4 @@
             }
         ]
     }
-}
+};

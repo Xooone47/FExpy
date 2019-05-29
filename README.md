@@ -2,16 +2,22 @@
 
 A quick start SPA with:
 
-Application: react + react router + axios;
+Application: react + react router + axios
 
-Styles: less + css modules + antd;
+Styles: less + css modules + antd
 
-Build: webpack + eslint.
+Build: webpack
+
+Lint: eslint
+
+Unit test: jest + enzyme
 
 # Getting started
 
 ```sh
-npm intall
+npm intall yarn -g
 
-npm start
+yarn
+
+yarn start
 ```

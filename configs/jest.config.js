@@ -1,12 +1,13 @@
 module.exports = {
     bail: false,
     // testURL: 'http://localhost',
+    rootDir: '../',
     modulePaths: ['<rootDir>/src/'],
-    setupFiles: ['<rootDir>/__test__/setup.js'],
+    setupFiles: ['<rootDir>/configs/enzymeSetup.js'],
     moduleFileExtensions: ['js', 'jsx'],
     moduleNameMapper: {
-        '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/__mocks__/fileMock.js',
-        '\\.(css|less|scss)$': '<rootDir>/__mocks__/styleMock.js'
+        '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/configs/__mocks__/fileMock.js',
+        '\\.(css|less|scss)$': 'identity-obj-proxy'
     },
     testPathIgnorePatterns: ['/node_modules/', '/dist/'],
     testRegex: '.*\\.test\\.js$',
