@@ -1,3 +1,9 @@
+import ReactDOM from 'react-dom';
+import {App} from '@/components';
 import '@babel/polyfill';
-import './components/App';
-import './styles/index.less';
+import '@/styles/index.less';
+
+ReactDOM.render(
+    <App />,
+    document.getElementById('app')
+);

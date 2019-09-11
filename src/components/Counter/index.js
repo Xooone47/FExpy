@@ -1,6 +1,5 @@
 import {useState, useCallback} from 'react';
 import {Button} from 'antd';
-import img from './assets/blackCat.jpeg';
 import styles from './index.less';
 
 const Counter = ({defaultCount = 0}) => {
@@ -19,7 +18,6 @@ const Counter = ({defaultCount = 0}) => {
             <div>Count：{count}</div>
             <Button onClick={handleAdd}>+</Button>
             <Button onClick={handleSubtract}>-</Button>
-            <img src={img} alt="black cat" className={styles.cat} />
         </div>
     );
 };

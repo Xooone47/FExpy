@@ -15,7 +15,10 @@ module.exports = (env, argv) => {
         },
         resolve: {
             extensions: ['.js', '.jsx', '.json'],
-            modules: ['node_modules']
+            modules: ['node_modules'],
+            alias: {
+                '@': path.resolve(__dirname, 'src')
+            }
         },
         devtool: 'inline-source-map',
         devServer: {
@@ -49,7 +52,7 @@ module.exports = (env, argv) => {
                             loader: 'eslint-loader',
                             options: {
                                 // cache: true,
-                                configFile: path.join(__dirname, '.eslintrc.json')
+                                configFile: path.join(__dirname, 'configs/.eslintrc.js')
                             }
                         }
                     ],
