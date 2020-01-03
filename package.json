@@ -2,9 +2,8 @@
   "name": "FExpy",
   "version": "1.0.0",
   "description": "Demo",
-  "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open",
+    "start": "webpack-dev-server --mode development",
     "clean": "rm -rf dist/",
     "prebuild": "npm run clean",
     "build": "webpack --mode production",
@@ -60,7 +59,7 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
-    "antd": "^3.13.6",
+    "antd": "^3.26.6",
     "axios": "^0.19.0",
     "classnames": "^2.2.5",
     "lodash": "^4.17.15",

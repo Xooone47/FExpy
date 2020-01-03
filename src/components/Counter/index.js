@@ -5,13 +5,19 @@ import styles from './index.less';
 const Counter = ({defaultCount = 0}) => {
     const [count, setCount] = useState(defaultCount);
 
-    const handleAdd = useCallback(() => {
-        setCount(count + 1);
-    }, [count]);
+    const handleAdd = useCallback(
+        () => {
+            setCount(c => c + 1);
+        },
+        []
+    );
 
-    function handleSubtract() {
-        setCount(count - 1);
-    }
+    const handleSubtract = useCallback(
+        () => {
+            setCount(c => c - 1);
+        },
+        []
+    );
 
     return (
         <div className={styles.root}>

@@ -38,7 +38,7 @@ module.exports = {
         "camelcase": "warn",
         "capitalized-comments": "off",
         "class-methods-use-this": "off",
-        "comma-dangle": "warn",
+        "comma-dangle": "off",
         "comma-spacing": ["warn", {"before": false, "after": true}],
         "comma-style": ["warn", "last"],
         "complexity": ["warn", 10],
