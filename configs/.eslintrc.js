@@ -367,5 +367,14 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
+    "overrides": [
+        {
+            "files": ["*.test.js"],
+            "rules": {
+                "no-undef": "off"
+            }
+        }
+    ],
+    "ignorePatterns": ["node_modules/"],
 };

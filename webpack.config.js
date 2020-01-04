@@ -14,7 +14,7 @@ module.exports = (env, argv) => {
             publicPath: '/assets/'
         },
         resolve: {
-            extensions: ['.js', '.jsx', '.json'],
+            extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
             modules: ['node_modules'],
             alias: {
                 '@': path.resolve(__dirname, 'src')
@@ -45,7 +45,7 @@ module.exports = (env, argv) => {
         module: {
             rules: [
                 {
-                    test: /(\.jsx|\.js)$/,
+                    test: /(\.jsx|\.js|\.ts|\.tsx)$/,
                     use: [
                         'babel-loader',
                         {

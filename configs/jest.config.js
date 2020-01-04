@@ -13,10 +13,11 @@ module.exports = {
     testRegex: '.*\\.test\\.js$',
     collectCoverage: true,
     collectCoverageFrom: [
-        'src/**/*.{js,jsx}',
-        '!src/index.js',
-        '!src/(api|components|containers|hocs|reducers|regions|selectors|utils)/index.js',
-        '!src/(actions|dicts|enums|links|styles|urls)/**'
+        // 'src/**/*.{js,jsx,ts,tsx}',
+        'src/utils/*.{js,jsx,ts,tsx}',
+        // '!src/index.js',
+        // '!src/(api|components|containers|hocs|reducers|regions|selectors|utils)/index.js',
+        // '!src/(actions|dicts|enums|links|styles|urls)/**'
     ],
     coverageDirectory: '__coverage__',
     coverageThreshold: {
