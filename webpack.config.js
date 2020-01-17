@@ -116,9 +116,12 @@ const getConfigs = (env, argv) => {
     };
 };
 
-// 构建时展示打包过程各部件的耗时
-const smp = new SpeedMeasurePlugin({
-    disable: process.env.ANALYZE // 进行analyze时不运行，避免污染stat.json的输出
-});
+module.exports = getConfigs;
 
-module.exports = smp.wrap(getConfigs);
+// 这个东西暂时有bug
+// 构建时展示打包过程各部件的耗时
+// const smp = new SpeedMeasurePlugin({
+//     disable: process.env.ANALYZE // 进行analyze时不运行，避免污染stat.json的输出
+// });
+
+// module.exports = smp.wrap(getConfigs);
