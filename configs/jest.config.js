@@ -4,7 +4,7 @@ module.exports = {
     rootDir: '../',
     modulePaths: ['<rootDir>/src/'],
     setupFiles: ['<rootDir>/configs/enzymeSetup.js'],
-    moduleFileExtensions: ['js', 'jsx'],
+    moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
     moduleNameMapper: {
         '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/configs/__mocks__/fileMock.js',
         '\\.(css|less|scss)$': 'identity-obj-proxy'
@@ -48,6 +48,7 @@ module.exports = {
         // }
     },
     transform: {
-        '^.+\\.js$': 'babel-jest'
+        '^.+\\.js$': 'babel-jest',
+        '^.+\\.tsx?$': 'ts-jest',
     }
 };
