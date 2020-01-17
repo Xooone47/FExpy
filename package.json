@@ -9,7 +9,9 @@
     "build": "webpack --mode production",
     "test": "jest --config ./configs/jest.config.js",
     "test:watch": "jest --config ./configs/jest.config.js --watch",
-    "lint": "eslint src --config ./configs/.eslintrc.js"
+    "lint": "eslint src --config ./configs/.eslintrc.js",
+    "generateAnalyzeFile": "mkdir -p ./dist/assets && ANALYZE=true webpack --profile --json > ./dist/assets/stats.json",
+    "analyze": "yarn generateAnalyzeFile && webpack-bundle-analyzer --port 8847 ./dist/assets/stats.json"
   },
   "author": "SinkKei",
   "license": "ISC",
@@ -51,9 +53,12 @@
     "less-loader": "^4.0.6",
     "postcss-loader": "^2.1.1",
     "react-transform-hmr": "^1.0.4",
+    "speed-measure-webpack-plugin": "^1.3.1",
     "style-loader": "^0.20.2",
     "uglifyjs-webpack-plugin": "^1.2.2",
     "webpack": "^4.32.2",
+    "webpack-build-notifier": "^2.0.0",
+    "webpack-bundle-analyzer": "^3.6.0",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.4.1",
     "webpack-merge": "^4.1.2"

@@ -2,8 +2,11 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
-module.exports = (env, argv) => {
+const getConfigs = (env, argv) => {
     const mode = argv.mode === 'development' ? 'DEV' : 'PROD';
 
     return {
@@ -100,7 +103,22 @@ module.exports = (env, argv) => {
             }),
             new ExtractTextPlugin('styles.[hash].css'),
             new webpack.NamedModulesPlugin(),
-            new webpack.HotModuleReplacementPlugin()
+            new webpack.HotModuleReplacementPlugin(),
+            new WebpackBuildNotifierPlugin({ // 构建完弹窗通知
+                title: "Project Build",
+                suppressSuccess: false
+            }),
+            new BundleAnalyzerPlugin({
+                analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
+                generateStatsFile: false, // 是否生成stats.json文件
+            })
         ]
     };
 };
+
+// 构建时展示打包过程各部件的耗时
+const smp = new SpeedMeasurePlugin({
+    disable: process.env.ANALYZE // 进行analyze时不运行，避免污染stat.json的输出
+});
+
+module.exports = smp.wrap(getConfigs);
