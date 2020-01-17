@@ -1,7 +1,7 @@
 import App from './App';
-import Title from './Title';
+import Home from './Home';
 
 export {
-    Title,
+    Home,
     App
 };
