@@ -75,7 +75,9 @@ const getConfigs = (env, argv) => {
                                     localIdentName: '[path][name]__[local]--[hash:base64:5]',
                                 }
                             },
-                            'less-loader', 'postcss-loader']
+                            'less-loader',
+                            'postcss-loader'
+                        ]
                     })
                 },
                 {

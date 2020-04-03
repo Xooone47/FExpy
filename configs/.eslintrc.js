@@ -282,7 +282,7 @@ module.exports = {
         "react/jsx-closing-bracket-location": "warn",
         "react/jsx-curly-spacing": "warn",
         "react/jsx-equals-spacing": "warn",
-        "react/jsx-filename-extension": ["warn", {"extensions": [".js", ".jsx", ".es"]}],
+        "react/jsx-filename-extension": ["warn", {"extensions": [".js", ".jsx", ".tsx"]}],
         "react/jsx-first-prop-new-line": "warn",
         "react/jsx-handler-names": "off",
         "react/jsx-indent-props": ["warn", 4],

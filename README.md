@@ -2,7 +2,7 @@
 
 A quick start SPA with:
 
-Application: react + react router + axios
+Application: react + redux + redux-thunk + axios + typescript
 
 Styles: less + css modules + antd
 

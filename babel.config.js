@@ -6,6 +6,7 @@ module.exports = {
                 "legacy": true
             }
         ],
+        "@babel/plugin-proposal-optional-chaining", // foo?.bar?.a
         "@babel/plugin-proposal-class-properties",
         "@babel/plugin-proposal-object-rest-spread",
         "react-require",
