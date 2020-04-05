@@ -12,7 +12,7 @@
     "lint": "yarn lint-es && yarn lint-type",
     "lint-es": "eslint src --config ./configs/.eslintrc.js",
     "lint-type": "tsc",
-    "generateAnalyzeFile": "mkdir -p ./dist/assets && ANALYZE=true webpack --profile --json > ./dist/assets/stats.json",
+    "generateAnalyzeFile": "mkdir -p ./dist/assets && webpack --mode production --profile --json > ./dist/assets/stats.json",
     "analyze": "yarn generateAnalyzeFile && webpack-bundle-analyzer --port 8847 ./dist/assets/stats.json"
   },
   "author": "SinkKei",

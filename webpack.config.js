@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+// const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
 const getConfigs = (env, argv) => {
     const mode = argv.mode === 'development' ? 'DEV' : 'PROD';
@@ -97,14 +97,33 @@ const getConfigs = (env, argv) => {
                 }
             ]
         },
+        optimization: {
+            namedChunks:true,
+            splitChunks: {
+                chunks: "all",
+                name: true,
+                cacheGroups: {
+                    vendors: {
+                        name: 'vendors',
+                        test: /[\\/]node_modules[\\/]/,
+                        priority: -10
+                    },
+                    default: {
+                        minChunks: 2,
+                        priority: -20,
+                        reuseExistingChunk: true
+                    }
+                }
+            },
+        },
         plugins: [
             new HtmlWebpackPlugin({
                 title: 'FExpy',
                 template: './src/index.html',
                 filename: mode === 'DEV' ? 'index.html' : '../index.html'
             }),
-            new ExtractTextPlugin('styles.[hash].css'),
-            new webpack.NamedModulesPlugin(),
+            new ExtractTextPlugin('styles.[hash].css'), // 分离css文件
+            new webpack.NamedModulesPlugin(), // 当开启 HMR 的时候使用该插件会显示模块的相对路径，适用于开发环境
             new webpack.HotModuleReplacementPlugin(),
             new WebpackBuildNotifierPlugin({ // 构建完弹窗通知
                 title: "Project Build",
