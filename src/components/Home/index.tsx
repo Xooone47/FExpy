@@ -1,10 +1,40 @@
-import {FC, useEffect} from 'react';
+/**
+ * @file 首页
+ * @author Trey
+ */
+import {FC, useEffect, useCallback, useState} from 'react';
 import {Button} from 'antd';
 import {useCurrentUser, useActions} from '@/hooks';
 import {fetchUserInfo} from '@/actions';
 import styles from './index.less';
 
 const request = [fetchUserInfo];
+
+const Counter = () => {
+    const [count, setCount] = useState<number>(0);
+
+    const handleAdd = useCallback(
+        () => {
+            setCount(count => count + 1);
+        },
+        []
+    );
+
+    const handleSubtract = useCallback(
+        () => {
+            setCount(count => count - 1);
+        },
+        []
+    );
+
+    return (
+        <div className={styles.counter}>
+            <div>Count: {count}</div>
+            <Button onClick={handleAdd}>+</Button>
+            <Button onClick={handleSubtract}>-</Button>
+        </div>
+    );
+};
 
 const Home: FC = () => {
     const user = useCurrentUser();
@@ -21,7 +51,7 @@ const Home: FC = () => {
         <div className={styles.root}>
             <h1>FExpy</h1>
             <div>Hi {user?.username}</div>
-            <Button>test</Button>
+            <Counter />
         </div>
     );
 };

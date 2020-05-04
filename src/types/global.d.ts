@@ -1,3 +1,8 @@
+/**
+ * @file global modules
+ * @author Trey
+ */
+
 declare module '*.less' {
     const content: any;
     export default content;

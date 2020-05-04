@@ -1,11 +1,11 @@
 /**
- * @file 系统中的actions
- * @author lisiqi06
+ * @file actions
+ * @author Trey
  */
 import {RECEIVE_USER_INFO} from './types';
 
 const fetch = () => Promise.resolve({
-    username: 'Trio',
+    username: 'Trey',
     permission: 'ADMIN',
 });
 

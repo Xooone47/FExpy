@@ -1,3 +1,7 @@
+/**
+ * @file babel settings
+ * @author Trey
+ */
 module.exports = {
     "plugins": [
         [

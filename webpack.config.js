@@ -1,3 +1,7 @@
+/**
+ * @file webpack settings
+ * @author Trey
+ */
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -7,7 +11,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 // const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
 const getConfigs = (env, argv) => {
-    const mode = argv.mode === 'development' ? 'DEV' : 'PROD';
+    const isDevMode = argv.mode === 'development';
 
     return {
         entry: './src/index.js',
@@ -50,7 +54,12 @@ const getConfigs = (env, argv) => {
                 {
                     test: /(\.jsx|\.js|\.ts|\.tsx)$/,
                     use: [
-                        'babel-loader',
+                        {
+                            loader: 'babel-loader',
+                            options: {
+                                configFile: path.join(__dirname, 'configs/babel.config.js')
+                            }
+                        },
                         {
                             loader: 'eslint-loader',
                             options: {
@@ -76,7 +85,14 @@ const getConfigs = (env, argv) => {
                                 }
                             },
                             'less-loader',
-                            'postcss-loader'
+                            {
+                                loader: 'postcss-loader',
+                                options: {
+                                    config: {
+                                        path: path.join(__dirname, 'configs/postcss.config.js')
+                                    }
+                                }
+                            }
                         ]
                     })
                 },
@@ -120,7 +136,7 @@ const getConfigs = (env, argv) => {
             new HtmlWebpackPlugin({
                 title: 'FExpy',
                 template: './src/index.html',
-                filename: mode === 'DEV' ? 'index.html' : '../index.html'
+                filename: isDevMode ? 'index.html' : '../index.html'
             }),
             new ExtractTextPlugin('styles.[hash].css'), // 分离css文件
             new webpack.NamedModulesPlugin(), // 当开启 HMR 的时候使用该插件会显示模块的相对路径，适用于开发环境
