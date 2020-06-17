@@ -5,7 +5,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
@@ -114,9 +114,9 @@ const getConfigs = (env, argv) => {
             ]
         },
         optimization: {
-            namedChunks:true,
+            namedChunks: true,
             splitChunks: {
-                chunks: "all",
+                chunks: 'all',
                 name: true,
                 cacheGroups: {
                     vendors: {
@@ -142,7 +142,7 @@ const getConfigs = (env, argv) => {
             new webpack.NamedModulesPlugin(), // 当开启 HMR 的时候使用该插件会显示模块的相对路径，适用于开发环境
             new webpack.HotModuleReplacementPlugin(),
             new WebpackBuildNotifierPlugin({ // 构建完弹窗通知
-                title: "Project Build",
+                title: 'Project Build',
                 suppressSuccess: false
             }),
             new BundleAnalyzerPlugin({

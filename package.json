@@ -15,6 +15,9 @@
     "generateAnalyzeFile": "mkdir -p ./dist/assets && webpack --mode production --profile --json > ./dist/assets/stats.json",
     "analyze": "yarn generateAnalyzeFile && webpack-bundle-analyzer --port 8847 ./dist/assets/stats.json"
   },
+  "babel": {
+    "extends": "./configs/babel.config.js"
+  },
   "author": "TreyLi",
   "license": "ISC",
   "devDependencies": {
