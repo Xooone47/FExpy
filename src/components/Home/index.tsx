@@ -6,6 +6,7 @@ import {FC, useEffect, useCallback, useState} from 'react';
 import {Button} from 'antd';
 import {useCurrentUser, useActions} from '@/hooks';
 import {fetchUserInfo} from '@/actions';
+import ConcurrentDemo from './ConcurrentDemo';
 import styles from './index.less';
 
 const request = [fetchUserInfo];
@@ -52,6 +53,7 @@ const Home: FC = () => {
             <h1>FExpy</h1>
             <div>Hi {user?.username}</div>
             <Counter />
+            <ConcurrentDemo />
         </div>
     );
 };

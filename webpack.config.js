@@ -57,7 +57,8 @@ const getConfigs = (env, argv) => {
                         {
                             loader: 'babel-loader',
                             options: {
-                                configFile: path.join(__dirname, 'configs/babel.config.js')
+                                configFile: path.join(__dirname, 'configs/babel.config.js'),
+                                cacheDirectory: true,
                             }
                         },
                         {
