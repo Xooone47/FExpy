@@ -13,11 +13,11 @@ const wrapPromise = (promise: any) => {
     let status = 'pending';
     let result: any = null;
     const suspender = promise.then(
-        r => {
+        (r: any) => {
             status = 'success';
             result = r;
         },
-        e => {
+        (e: any) => {
             status = 'error';
             result = e;
         }
@@ -41,18 +41,9 @@ const fetchPosts = () => {
             console.log('fetched posts');
             resolve(
                 [
-                    {
-                        id: 0,
-                        text: 'I get by with a little help from my friends',
-                    },
-                    {
-                        id: 1,
-                        text: 'I\'d like to be under the sea in an octupus\'s garden',
-                    },
-                    {
-                        id: 2,
-                        text: 'You got that sand all over your feet',
-                    }
+                    {id: 0, text: 'I get by with a little help from my friends'},
+                    {id: 1, text: 'I\'d like to be under the sea in an octupus\'s garden'},
+                    {id: 2, text: 'You got that sand all over your feet'}
                 ]
             );
         }, 2000);

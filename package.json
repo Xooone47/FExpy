@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "clean": "rm -rf dist/",
-    "prebuild": "npm run clean",
+    "prebuild": "yarn clean",
     "build": "webpack --mode production",
     "test": "jest --config ./configs/jest.config.js",
     "test:watch": "jest --config ./configs/jest.config.js --watch",
@@ -100,7 +100,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run lint && npm run test"
+      "pre-push": "yarn lint && yarn test"
     }
   },
   "browserslist": [

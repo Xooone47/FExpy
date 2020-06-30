@@ -10,13 +10,48 @@ const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
+const getPlugins = mode => {
+    const commonPlugins = [
+        new HtmlWebpackPlugin({
+            title: 'FExpy',
+            template: './src/index.html',
+            filename: mode === 'development' ? 'index.html' : '../index.html'
+        }),
+        new ExtractTextPlugin({filename: 'styles.[md5:contenthash:hex:8].css'}) // 分离css文件
+    ];
+
+    const devPlugins = [
+        new webpack.NamedModulesPlugin(), // 当开启 HMR 的时候使用该插件会显示模块的相对路径，适用于开发环境
+        new webpack.HotModuleReplacementPlugin(),
+        new WebpackBuildNotifierPlugin({ // 构建完弹窗通知
+            title: 'Project Build',
+            suppressSuccess: false
+        }),
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
+            generateStatsFile: false, // 是否生成stats.json文件
+        })
+    ];
+
+    if (mode === 'production') {
+        return commonPlugins;
+    } else {
+        return [
+            ...commonPlugins,
+            ...devPlugins
+        ];
+    }
+};
+
 const getConfigs = (env, argv) => {
-    const isDevMode = argv.mode === 'development';
+    const {mode} = argv;
 
     return {
         entry: './src/index.js',
         output: {
-            filename: 'index.[hash].js',
+            // filename: 'index.[hash].js',
+            // filename: '[name].[contenthash].js',
+            filename: mode === 'production' ? '[name].[contenthash].js' : '[name].[hash].js', // contenthash不能与HotModuleReplacementPlugin共用
             path: path.resolve(__dirname, 'dist', 'assets'),
             publicPath: '/assets/'
         },
@@ -133,24 +168,7 @@ const getConfigs = (env, argv) => {
                 }
             },
         },
-        plugins: [
-            new HtmlWebpackPlugin({
-                title: 'FExpy',
-                template: './src/index.html',
-                filename: isDevMode ? 'index.html' : '../index.html'
-            }),
-            new ExtractTextPlugin('styles.[hash].css'), // 分离css文件
-            new webpack.NamedModulesPlugin(), // 当开启 HMR 的时候使用该插件会显示模块的相对路径，适用于开发环境
-            new webpack.HotModuleReplacementPlugin(),
-            new WebpackBuildNotifierPlugin({ // 构建完弹窗通知
-                title: 'Project Build',
-                suppressSuccess: false
-            }),
-            new BundleAnalyzerPlugin({
-                analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
-                generateStatsFile: false, // 是否生成stats.json文件
-            })
-        ]
+        plugins: getPlugins(mode)
     };
 };
 
