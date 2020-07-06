@@ -49,8 +49,6 @@ const getConfigs = (env, argv) => {
     return {
         entry: './src/index.js',
         output: {
-            // filename: 'index.[hash].js',
-            // filename: '[name].[contenthash].js',
             filename: mode === 'production' ? '[name].[contenthash].js' : '[name].[hash].js', // contenthash不能与HotModuleReplacementPlugin共用
             path: path.resolve(__dirname, 'dist', 'assets'),
             publicPath: '/assets/'
