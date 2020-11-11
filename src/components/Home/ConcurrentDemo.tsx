@@ -35,9 +35,11 @@ const wrapPromise = (promise: any) => {
 };
 
 const fetchPosts = () => {
+    // eslint-disable-next-line no-console
     console.log('fetch posts...');
     return new Promise(resolve => {
         setTimeout(() => {
+            // eslint-disable-next-line no-console
             console.log('fetched posts');
             resolve(
                 [
