@@ -3,70 +3,66 @@
  * @author Trey
  */
 module.exports = {
-    "plugins": [
+    'plugins': [
         [
-            "@babel/plugin-proposal-decorators",
+            '@babel/plugin-proposal-decorators',
             {
-                "legacy": true
+                'legacy': true
             }
         ],
-        "@babel/plugin-proposal-optional-chaining", // foo?.bar?.a
-        "@babel/plugin-proposal-class-properties",
-        "@babel/plugin-proposal-object-rest-spread",
-        "react-require",
+        '@babel/plugin-proposal-optional-chaining', // foo?.bar?.a
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-object-rest-spread',
+        'react-require',
         [
-            "import",
+            'import',
             {
-                "libraryName": "antd",
-                "libraryDirectory": "es",
-                "style": "css"
+                'libraryName': 'antd',
+                'libraryDirectory': 'es',
+                'style': 'css'
             }
         ],
         [
-            "react-transform",
+            'react-transform',
             {
-                "transforms": [
+                'transforms': [
                     {
-                        "transform": "react-transform-hmr",
-                        "imports": [
-                            "react"
-                        ],
-                        "locals": [
-                            "module"
-                        ]
+                        'transform': 'react-transform-hmr',
+                        'imports': ['react'],
+                        'locals': ['module']
                     }
                 ]
             }
         ],
         [
-            "@babel/plugin-transform-runtime",
+            '@babel/plugin-transform-runtime',
             {
-                "regenerator": true
+                'regenerator': true
             }
         ]
     ],
-    "presets": [
-        "@babel/preset-env",
-        "@babel/preset-react",
+    'presets': [
+        '@babel/preset-env',
+        '@babel/preset-react',
         [
-            "@babel/preset-typescript",
+            '@babel/preset-typescript',
             {
-                "isTSX": true,
-                "allExtensions": true
+                'isTSX': true,
+                'allExtensions': true
             }
         ]
     ],
-    "env": {
-        "test": {
-            "plugins": [
+    'env': {
+        'test': {
+            'plugins': [
                 [
-                    "import",
+                    'import',
                     {
-                        "libraryName": "antd",
-                        "style": false
+                        'libraryName': 'antd',
+                        'style': false
                     }
                 ]
             ]
         }
     }
-}
+};
