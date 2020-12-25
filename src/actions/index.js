@@ -1,18 +1,18 @@
 /**
  * @file actions
- * @author Trey
+ * @author Kay
  */
 import {RECEIVE_USER_INFO} from './types';
 
 const fetch = () => Promise.resolve({
-    username: 'Trey',
-    permission: 'ADMIN',
+    username: 'Kay',
+    permission: 'ADMIN'
 });
 
 export const fetchUserInfo = () => async dispatch => {
     const data = await fetch();
     dispatch({
         type: RECEIVE_USER_INFO,
-        payload: data,
+        payload: data
     });
 };

@@ -1,6 +1,6 @@
 /**
  * @file react concurrent demo
- * @author Trey
+ * @author Kay
  */
 
 import {Suspense, FC} from 'react';

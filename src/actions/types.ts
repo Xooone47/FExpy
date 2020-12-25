@@ -1,6 +1,6 @@
 /**
  * @file action types
- * @author Trey
+ * @author Kay
  */
 
 export const RECEIVE_USER_INFO = 'RECEIVE_USER_INFO';
