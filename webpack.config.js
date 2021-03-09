@@ -15,9 +15,9 @@ const getPlugins = mode => {
         new HtmlWebpackPlugin({
             title: 'FExpy',
             template: './src/index.html',
-            filename: mode === 'development' ? 'index.html' : '../index.html'
+            filename: mode === 'development' ? 'index.html' : '../index.html',
         }),
-        new ExtractTextPlugin({filename: 'styles.[md5:contenthash:hex:8].css'}) // 分离css文件
+        new ExtractTextPlugin({filename: 'styles.[md5:contenthash:hex:8].css'}), // 分离css文件
     ];
 
     const devPlugins = [
@@ -25,12 +25,12 @@ const getPlugins = mode => {
         new webpack.HotModuleReplacementPlugin(),
         new WebpackBuildNotifierPlugin({ // 构建完弹窗通知
             title: 'Project Build',
-            suppressSuccess: false
+            suppressSuccess: false,
         }),
         new BundleAnalyzerPlugin({
             analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
             generateStatsFile: false, // 是否生成stats.json文件
-        })
+        }),
     ];
 
     if (mode === 'production') {
@@ -38,7 +38,7 @@ const getPlugins = mode => {
     } else {
         return [
             ...commonPlugins,
-            ...devPlugins
+            ...devPlugins,
         ];
     }
 };
@@ -49,16 +49,17 @@ const getConfigs = (env, argv) => {
     return {
         entry: './src/index.js',
         output: {
-            filename: mode === 'production' ? '[name].[contenthash].js' : '[name].[hash].js', // contenthash不能与HotModuleReplacementPlugin共用
+            // contenthash不能与HotModuleReplacementPlugin共用
+            filename: mode === 'production' ? '[name].[contenthash].js' : '[name].[hash].js',
             path: path.resolve(__dirname, 'dist', 'assets'),
-            publicPath: '/assets/'
+            publicPath: '/assets/',
         },
         resolve: {
             extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
             modules: ['node_modules'],
             alias: {
-                '@': path.resolve(__dirname, 'src')
-            }
+                '@': path.resolve(__dirname, 'src'),
+            },
         },
         devtool: 'inline-source-map',
         devServer: {
@@ -70,9 +71,9 @@ const getConfigs = (env, argv) => {
                 rewrites: [
                     {
                         from: /^[^/rest/v1].*$/,
-                        to: 'index.html'
-                    }
-                ]
+                        to: 'index.html',
+                    },
+                ],
             },
             // proxy: {
             //     '/rest': {
@@ -80,7 +81,7 @@ const getConfigs = (env, argv) => {
             //         secure: false
             //     }
             // },
-            hot: true
+            hot: true,
         },
         module: {
             rules: [
@@ -92,17 +93,17 @@ const getConfigs = (env, argv) => {
                             options: {
                                 configFile: path.join(__dirname, 'configs/babel.config.js'),
                                 cacheDirectory: true,
-                            }
+                            },
                         },
                         {
                             loader: 'eslint-loader',
                             options: {
                                 // cache: true,
-                                configFile: path.join(__dirname, 'configs/.eslintrc.js')
-                            }
-                        }
+                                configFile: path.join(__dirname, 'configs/.eslintrc.js'),
+                            },
+                        },
                     ],
-                    exclude: /node_modules/
+                    exclude: /node_modules/,
                 },
                 {
                     test: /\.less$/,
@@ -116,36 +117,36 @@ const getConfigs = (env, argv) => {
                                     modules: true,
                                     camelCase: 'dashes',
                                     localIdentName: '[path][name]__[local]--[hash:base64:5]',
-                                }
+                                },
                             },
                             'less-loader',
                             {
                                 loader: 'postcss-loader',
                                 options: {
                                     config: {
-                                        path: path.join(__dirname, 'configs/postcss.config.js')
-                                    }
-                                }
-                            }
-                        ]
-                    })
+                                        path: path.join(__dirname, 'configs/postcss.config.js'),
+                                    },
+                                },
+                            },
+                        ],
+                    }),
                 },
                 {
                     test: /\.css$/,
                     use: [
                         'style-loader',
-                        'css-loader'
-                    ]
+                        'css-loader',
+                    ],
                 },
                 {
                     test: /\.(png|svg|jpg|jpeg|gif)$/,
-                    use: ['file-loader']
+                    use: ['file-loader'],
                 },
                 {
                     test: /\.(woff|woff2|eot|ttf|otf)$/,
-                    use: ['file-loader']
-                }
-            ]
+                    use: ['file-loader'],
+                },
+            ],
         },
         optimization: {
             namedChunks: true,
@@ -156,17 +157,17 @@ const getConfigs = (env, argv) => {
                     vendors: {
                         name: 'vendors',
                         test: /[\\/]node_modules[\\/]/,
-                        priority: -10
+                        priority: -10,
                     },
                     default: {
                         minChunks: 2,
                         priority: -20,
-                        reuseExistingChunk: true
-                    }
-                }
+                        reuseExistingChunk: true,
+                    },
+                },
             },
         },
-        plugins: getPlugins(mode)
+        plugins: getPlugins(mode),
     };
 };
 

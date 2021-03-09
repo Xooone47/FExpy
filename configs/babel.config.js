@@ -7,8 +7,8 @@ module.exports = {
         [
             '@babel/plugin-proposal-decorators',
             {
-                'legacy': true
-            }
+                'legacy': true,
+            },
         ],
         '@babel/plugin-proposal-optional-chaining', // foo?.bar?.a
         '@babel/plugin-proposal-class-properties',
@@ -19,8 +19,8 @@ module.exports = {
             {
                 'libraryName': 'antd',
                 'libraryDirectory': 'es',
-                'style': 'css'
-            }
+                'style': 'css',
+            },
         ],
         [
             'react-transform',
@@ -29,17 +29,17 @@ module.exports = {
                     {
                         'transform': 'react-transform-hmr',
                         'imports': ['react'],
-                        'locals': ['module']
-                    }
-                ]
-            }
+                        'locals': ['module'],
+                    },
+                ],
+            },
         ],
         [
             '@babel/plugin-transform-runtime',
             {
-                'regenerator': true
-            }
-        ]
+                'regenerator': true,
+            },
+        ],
     ],
     'presets': [
         '@babel/preset-env',
@@ -48,9 +48,9 @@ module.exports = {
             '@babel/preset-typescript',
             {
                 'isTSX': true,
-                'allExtensions': true
-            }
-        ]
+                'allExtensions': true,
+            },
+        ],
     ],
     'env': {
         'test': {
@@ -59,10 +59,10 @@ module.exports = {
                     'import',
                     {
                         'libraryName': 'antd',
-                        'style': false
-                    }
-                ]
-            ]
-        }
-    }
+                        'style': false,
+                    },
+                ],
+            ],
+        },
+    },
 };
