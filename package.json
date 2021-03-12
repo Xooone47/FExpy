@@ -88,7 +88,7 @@
     "axios": "^0.21.1",
     "classnames": "^2.2.5",
     "commander": "^5.1.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "lodash-decorators": "^4.5.0",
     "moment": "^2.29.1",
     "prop-types": "^15.6.1",
