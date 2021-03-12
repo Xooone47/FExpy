@@ -9,6 +9,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
 const getPlugins = mode => {
     const commonPlugins = [
@@ -30,6 +31,12 @@ const getPlugins = mode => {
         new BundleAnalyzerPlugin({
             analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
             generateStatsFile: false, // 是否生成stats.json文件
+        }),
+        new FriendlyErrorsWebpackPlugin({
+            compilationSuccessInfo: {
+                messages: ['You application is running here http://localhost:4747'],
+                clearConsole: false,
+            },
         }),
     ];
 
@@ -61,11 +68,15 @@ const getConfigs = (env, argv) => {
                 '@': path.resolve(__dirname, 'src'),
             },
         },
+        resolveLoader: { // for local developing loaders
+            modules: ['node_modules', 'custom-loaders'],
+        },
         devtool: 'inline-source-map',
         devServer: {
             publicPath: '/assets/',
             port: 4747,
             inline: true,
+            quiet: true, // for friendly-errors-webpack-plugin
             historyApiFallback: {
                 index: '/assets/',
                 rewrites: [

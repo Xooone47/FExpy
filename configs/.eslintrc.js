@@ -35,10 +35,10 @@ module.exports = {
         'import/resolver': 'webpack'
     },
     'rules': {
-        'import/order': [
-            'error',
-            {'groups': ['builtin', 'object', 'external', 'internal', 'parent', 'index', 'sibling']}
-        ],
+        // 'import/order': [
+        //     'error',
+        //     {'groups': ['builtin', 'object', 'external', 'internal', 'parent', 'index', 'sibling']}
+        // ],
         'import/no-unresolved': 2,
         'accessor-pairs': 'warn',
         'array-bracket-newline': ['warn', {'multiline': true}],
