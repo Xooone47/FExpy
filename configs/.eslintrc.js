@@ -5,26 +5,26 @@ module.exports = {
     'parserOptions': {
         'sourceType': 'module',
         'ecmaFeatures': {
-            'jsx': true
-        }
+            'jsx': true,
+        },
     },
     'plugins': ['babel', 'react', 'import'],
     'env': {
         'browser': true,
         'node': true,
-        'es6': true
+        'es6': true,
     },
     'globals': {
-        'features': true
+        'features': true,
     },
     'extends': [
         'eslint:recommended',
         'plugin:import/errors',
-        'plugin:import/warnings'
+        'plugin:import/warnings',
     ],
     'settings': {
         'react': {
-            'version': 'detect'
+            'version': 'detect',
         },
         // 'import/resolver': {
         //     'webpack': {
@@ -32,13 +32,13 @@ module.exports = {
         //         config: path.join('.', 'webpack.config.js')
         //     }
         // }
-        'import/resolver': 'webpack'
+        'import/resolver': 'webpack',
     },
     'rules': {
-        // 'import/order': [
-        //     'error',
-        //     {'groups': ['builtin', 'object', 'external', 'internal', 'parent', 'index', 'sibling']}
-        // ],
+        'import/order': [
+            'error',
+            {'groups': ['builtin', 'object', 'external', 'internal', 'parent', 'index', 'sibling']},
+        ],
         'import/no-unresolved': 2,
         'accessor-pairs': 'warn',
         'array-bracket-newline': ['warn', {'multiline': true}],
@@ -357,7 +357,7 @@ module.exports = {
                     'properties',
                     'lifecycle',
                     'everything-else',
-                    'render'
+                    'render',
                 ],
                 'groups': {
                     'static-properties': [
@@ -366,7 +366,7 @@ module.exports = {
                         'contextTypes',
                         'childContextTypes',
                         'mixins',
-                        'statics'
+                        'statics',
                     ],
                     'lifecycle': [
                         'getDefaultProps',
@@ -379,19 +379,19 @@ module.exports = {
                         'shouldComponentUpdate',
                         'componentWillUpdate',
                         'componentDidUpdate',
-                        'componentWillUnmount'
-                    ]
-                }
-            }
-        ]
+                        'componentWillUnmount',
+                    ],
+                },
+            },
+        ],
     },
     'overrides': [
         {
             'files': ['*.test.js'],
             'rules': {
-                'no-undef': 'off'
-            }
-        }
+                'no-undef': 'off',
+            },
+        },
     ],
     'ignorePatterns': ['node_modules/'],
 };
