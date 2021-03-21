@@ -34,7 +34,7 @@ const getPlugins = mode => {
         }),
         new FriendlyErrorsWebpackPlugin({
             compilationSuccessInfo: {
-                messages: ['You application is running here http://localhost:4747'],
+                messages: ['App is running on: http://localhost:4747'],
                 clearConsole: false,
             },
         }),
@@ -67,9 +67,6 @@ const getConfigs = (env, argv) => {
             alias: {
                 '@': path.resolve(__dirname, 'src'),
             },
-        },
-        resolveLoader: { // for local developing loaders
-            modules: ['node_modules', 'custom-loaders'],
         },
         devtool: 'inline-source-map',
         devServer: {
