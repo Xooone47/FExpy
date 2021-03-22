@@ -1,6 +1,6 @@
 /**
  * @file global modules
- * @author Kay
+ * @author Deland
  */
 
 declare module '*.less' {

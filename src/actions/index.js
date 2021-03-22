@@ -1,11 +1,11 @@
 /**
  * @file actions
- * @author Kay
+ * @author Deland
  */
 import {RECEIVE_USER_INFO} from './types';
 
 const fetch = () => Promise.resolve({
-    username: 'Kay',
+    username: 'Deland',
     permission: 'ADMIN',
 });
 

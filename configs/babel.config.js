@@ -1,6 +1,6 @@
 /**
  * @file babel settings
- * @author Trey
+ * @author Deland
  */
 module.exports = {
     'plugins': [

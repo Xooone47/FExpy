@@ -21,7 +21,7 @@
   "babel": {
     "extends": "./configs/babel.config.js"
   },
-  "author": "Kay Li",
+  "author": "Deland Li",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.0.0",
