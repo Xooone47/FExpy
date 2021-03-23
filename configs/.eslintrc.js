@@ -1,14 +1,14 @@
 // const path = require('path');
 
 module.exports = {
-    'parser': 'babel-eslint',
+    'parser': '@typescript-eslint/parser',
     'parserOptions': {
         'sourceType': 'module',
         'ecmaFeatures': {
             'jsx': true,
         },
     },
-    'plugins': ['babel', 'react', 'import'],
+    'plugins': ['react', 'import', '@typescript-eslint'],
     'env': {
         'browser': true,
         'node': true,
@@ -21,6 +21,7 @@ module.exports = {
         'eslint:recommended',
         'plugin:import/errors',
         'plugin:import/warnings',
+        'plugin:@typescript-eslint/recommended'
     ],
     'settings': {
         'react': {
@@ -28,7 +29,6 @@ module.exports = {
         },
         // 'import/resolver': {
         //     'webpack': {
-        //         // config: '../webpack.config.js'
         //         config: path.join('.', 'webpack.config.js')
         //     }
         // }
@@ -288,7 +288,7 @@ module.exports = {
         'wrap-regex': 'off',
         'yield-star-spacing': 'off',
         'yoda': 'warn',
-        'babel/object-curly-spacing': ['warn', 'never'],
+        // 'babel/object-curly-spacing': ['warn', 'never'],
         'react/default-props-match-prop-types': 'warn',
         'react/display-name': 'off',
         'react/forbid-component-props': 'off',
