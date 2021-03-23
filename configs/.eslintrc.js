@@ -288,7 +288,7 @@ module.exports = {
         'wrap-regex': 'off',
         'yield-star-spacing': 'off',
         'yoda': 'warn',
-        // 'babel/object-curly-spacing': ['warn', 'never'],
+        'object-curly-spacing': ['warn', 'never'],
         'react/default-props-match-prop-types': 'warn',
         'react/display-name': 'off',
         'react/forbid-component-props': 'off',
