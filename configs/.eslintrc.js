@@ -27,11 +27,6 @@ module.exports = {
         'react': {
             'version': 'detect',
         },
-        // 'import/resolver': {
-        //     'webpack': {
-        //         config: path.join('.', 'webpack.config.js')
-        //     }
-        // }
         'import/resolver': 'webpack',
     },
     'rules': {
