@@ -21,7 +21,7 @@ module.exports = {
         'eslint:recommended',
         'plugin:import/errors',
         'plugin:import/warnings',
-        'plugin:@typescript-eslint/recommended'
+        'plugin:@typescript-eslint/recommended',
     ],
     'settings': {
         'react': {
@@ -30,6 +30,7 @@ module.exports = {
         'import/resolver': 'webpack',
     },
     'rules': {
+        '@typescript-eslint/ban-ts-comment': 0,
         'import/order': [
             'error',
             {'groups': ['builtin', 'object', 'external', 'internal', 'parent', 'index', 'sibling']},

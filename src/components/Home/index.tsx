@@ -11,7 +11,7 @@ import styles from './index.less';
 
 const request = [fetchUserInfo];
 
-const Counter = () => {
+const Counter: FC = () => {
     const [count, setCount] = useState<number>(0);
 
     const handleAdd = useCallback(
