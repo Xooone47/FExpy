@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /**
  * @file webpack settings
  * @author Deland
@@ -10,6 +11,18 @@ const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const {merge} = require('webpack-merge');
+
+const getIsEnableCssModules = resourcePath => {
+    const relativePath = path.relative(__dirname, resourcePath);
+
+    // node_modules和src/styles中的样式文件不开启css modules
+    if (relativePath.startsWith('node_modules') || relativePath.startsWith('src/styles')) {
+        return false;
+    }
+
+    return true;
+};
 
 const getPlugins = mode => {
     const commonPlugins = [
@@ -50,10 +63,36 @@ const getPlugins = mode => {
     }
 };
 
+const devConfigs = {
+    devtool: 'inline-source-map',
+    devServer: {
+        publicPath: '/assets/',
+        port: 4747,
+        inline: true,
+        quiet: true, // for friendly-errors-webpack-plugin
+        historyApiFallback: {
+            index: '/assets/',
+            rewrites: [
+                {
+                    from: /^[^/rest/v1].*$/,
+                    to: 'index.html',
+                },
+            ],
+        },
+        // proxy: {
+        //     '/rest': {
+        //         target: 'http://',
+        //         secure: false
+        //     }
+        // },
+        hot: true,
+    },
+};
+
 const getConfigs = (env, argv) => {
     const {mode} = argv;
 
-    return {
+    const commonConfigs = {
         entry: './src/index.js',
         output: {
             // contenthash不能与HotModuleReplacementPlugin共用
@@ -67,29 +106,6 @@ const getConfigs = (env, argv) => {
             alias: {
                 '@': path.resolve(__dirname, 'src'),
             },
-        },
-        devtool: 'inline-source-map',
-        devServer: {
-            publicPath: '/assets/',
-            port: 4747,
-            inline: true,
-            quiet: true, // for friendly-errors-webpack-plugin
-            historyApiFallback: {
-                index: '/assets/',
-                rewrites: [
-                    {
-                        from: /^[^/rest/v1].*$/,
-                        to: 'index.html',
-                    },
-                ],
-            },
-            // proxy: {
-            //     '/rest': {
-            //         target: 'http://',
-            //         secure: false
-            //     }
-            // },
-            hot: true,
         },
         module: {
             rules: [
@@ -107,14 +123,14 @@ const getConfigs = (env, argv) => {
                             loader: 'eslint-loader',
                             options: {
                                 // cache: true,
-                                configFile: path.join(__dirname, 'configs/.eslintrc.js'),
+                                configFile: path.join(__dirname, '.eslintrc.js'),
                             },
                         },
                     ],
                     exclude: /node_modules/,
                 },
                 {
-                    test: /\.less$/,
+                    test: /\.(less|css)$/,
                     use: ExtractTextPlugin.extract({
                         fallback: 'style-loader',
                         use: [
@@ -122,37 +138,53 @@ const getConfigs = (env, argv) => {
                                 loader: 'css-loader',
                                 options: {
                                     importLoaders: 2,
-                                    modules: true,
-                                    camelCase: 'dashes',
-                                    localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                                    modules: {
+                                        auto: getIsEnableCssModules,
+                                        localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                                    },
+                                    esModule: false,
                                 },
                             },
-                            'less-loader',
                             {
                                 loader: 'postcss-loader',
                                 options: {
-                                    config: {
-                                        path: path.join(__dirname, 'configs/postcss.config.js'),
+                                    postcssOptions: {
+                                        config: path.join(__dirname, 'configs', 'postcss.config.js'),
                                     },
+                                },
+                            },
+                            {
+                                loader: 'less-loader',
+                                options: {
+                                    javascriptEnabled: true,
                                 },
                             },
                         ],
                     }),
                 },
                 {
-                    test: /\.css$/,
-                    use: [
-                        'style-loader',
-                        'css-loader',
-                    ],
+                    test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: 'img/[name].[hash:7].[ext]',
+                    },
                 },
                 {
-                    test: /\.(png|svg|jpg|jpeg|gif)$/,
-                    use: ['file-loader'],
+                    test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: 'media/[name].[hash:7].[ext]',
+                    },
                 },
                 {
-                    test: /\.(woff|woff2|eot|ttf|otf)$/,
-                    use: ['file-loader'],
+                    test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: 'fonts/[name].[hash:7].[ext]',
+                    },
                 },
             ],
         },
@@ -177,6 +209,12 @@ const getConfigs = (env, argv) => {
         },
         plugins: getPlugins(mode),
     };
+
+    if (mode === 'development') {
+        return merge(commonConfigs, devConfigs);
+    } else {
+        return commonConfigs;
+    }
 };
 
 module.exports = getConfigs;

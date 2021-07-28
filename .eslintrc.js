@@ -31,6 +31,9 @@ module.exports = {
     },
     'rules': {
         '@typescript-eslint/ban-ts-comment': 0,
+        '@typescript-eslint/explicit-module-boundary-types': 0,
+        '@typescript-eslint/no-explicit-any': 0,
+
         'import/order': [
             'error',
             {'groups': ['builtin', 'object', 'external', 'internal', 'parent', 'index', 'sibling']},
