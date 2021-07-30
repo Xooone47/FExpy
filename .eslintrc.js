@@ -1,5 +1,3 @@
-// const path = require('path');
-
 module.exports = {
     'parser': '@typescript-eslint/parser',
     'parserOptions': {
@@ -30,15 +28,19 @@ module.exports = {
         'import/resolver': 'webpack',
     },
     'rules': {
+        // typescript rules
         '@typescript-eslint/ban-ts-comment': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0,
         '@typescript-eslint/no-explicit-any': 0,
 
+        // import rules
         'import/order': [
             'error',
             {'groups': ['builtin', 'object', 'external', 'internal', 'parent', 'index', 'sibling']},
         ],
         'import/no-unresolved': 2,
+
+        // ECMAScript rules
         'accessor-pairs': 'warn',
         'array-bracket-newline': ['warn', {'multiline': true}],
         'array-bracket-spacing': ['warn', 'never'],
@@ -289,6 +291,8 @@ module.exports = {
         'yield-star-spacing': 'off',
         'yoda': 'warn',
         'object-curly-spacing': ['warn', 'never'],
+
+        // react rules
         'react/default-props-match-prop-types': 'warn',
         'react/display-name': 'off',
         'react/forbid-component-props': 'off',
