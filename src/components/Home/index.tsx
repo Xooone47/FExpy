@@ -7,6 +7,7 @@ import {Button} from 'antd';
 import {useCurrentUser, useActions} from '@/hooks';
 import {fetchUserInfo} from '@/actions';
 import ConcurrentDemo from './ConcurrentDemo';
+import RecoilDemo from './RecoilDemo';
 import styles from './index.less';
 
 const request = [fetchUserInfo];
@@ -37,6 +38,7 @@ const Counter: FC = () => {
     );
 };
 
+
 const Home: FC = () => {
     const user = useCurrentUser();
     const [fetchUser] = useActions(request);
@@ -53,6 +55,7 @@ const Home: FC = () => {
             <h1>FExpy</h1>
             <div>Hi {user?.username}</div>
             <Counter />
+            <RecoilDemo />
             <ConcurrentDemo />
         </div>
     );
