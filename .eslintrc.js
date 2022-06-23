@@ -1,37 +1,40 @@
 module.exports = {
-    'parser': '@typescript-eslint/parser',
-    'parserOptions': {
-        'sourceType': 'module',
-        'ecmaFeatures': {
+    root: true,
+    parser: '@typescript-eslint/parser',
+    parserOptions: {
+        project: './tsconfig.json',
+        sourceType: 'module',
+        ecmaFeatures: {
             'jsx': true,
         },
     },
-    'plugins': ['react', 'import', '@typescript-eslint'],
-    'env': {
+    plugins: ['react', 'import', '@typescript-eslint'],
+    env: {
         'browser': true,
         'node': true,
         'es6': true,
     },
-    'globals': {
+    globals: {
         'features': true,
     },
-    'extends': [
+    extends: [
         'eslint:recommended',
         'plugin:import/errors',
         'plugin:import/warnings',
         'plugin:@typescript-eslint/recommended',
     ],
-    'settings': {
+    settings: {
         'react': {
             'version': 'detect',
         },
         'import/resolver': 'webpack',
     },
-    'rules': {
+    rules: {
         // typescript rules
         '@typescript-eslint/ban-ts-comment': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0,
         '@typescript-eslint/no-explicit-any': 0,
+        '@typescript-eslint/no-unused-vars': 1,
 
         // import rules
         'import/order': [
@@ -218,12 +221,11 @@ module.exports = {
         'no-unexpected-multiline': 'warn',
         'no-unmodified-loop-condition': 'warn',
         'no-unneeded-ternary': 'warn',
-        'no-unreachable': 'warn',
         'no-unsafe-finally': 'warn',
         'no-unsafe-negation': 'warn',
         'no-unused-expressions': ['warn', {'allowShortCircuit': true}],
         'no-unused-labels': 'warn',
-        'no-unused-vars': 'warn',
+        // 'no-unused-vars': 'warn',
         'no-use-before-define': ['warn', {'variables': false, 'classes': false, 'functions': true}],
         'no-useless-call': 'warn',
         'no-useless-computed-key': 'warn',
@@ -239,7 +241,6 @@ module.exports = {
         'no-with': 'warn',
         'nonblock-statement-body-position': 'off',
         'object-curly-newline': ['warn', {'consistent': true, 'multiline': true}],
-        'object-curly-spacing': 'off',
         'object-property-newline': 'off',
         'object-shorthand': ['off', 'consistent-as-needed'],
         'one-var': ['warn', 'never'],
@@ -389,7 +390,7 @@ module.exports = {
             },
         ],
     },
-    'overrides': [
+    overrides: [
         {
             'files': ['*.test.js'],
             'rules': {
@@ -397,5 +398,5 @@ module.exports = {
             },
         },
     ],
-    'ignorePatterns': ['node_modules/'],
+    ignorePatterns: ['node_modules/'],
 };

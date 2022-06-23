@@ -6,6 +6,7 @@ import {FC, useEffect, useCallback, useState} from 'react';
 import {Button} from 'antd';
 import {useCurrentUser, useActions} from '@/hooks';
 import {fetchUserInfo} from '@/actions';
+import {apiGetTest} from '@/apis';
 import ConcurrentDemo from './ConcurrentDemo';
 import RecoilDemo from './RecoilDemo';
 import styles from './index.less';

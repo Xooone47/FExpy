@@ -4,16 +4,15 @@
   "description": "To build a react app quickly",
   "scripts": {
     "start": "webpack-dev-server --mode development",
-    "clean": "rm -rf dist/",
-    "prebuild": "yarn clean",
-    "build": "webpack --mode production",
+    "clean": "rm -rf build/",
+    "build": "sh ./scripts/build.sh",
     "test": "jest --config ./configs/jest.config.js",
     "test:watch": "jest --config ./configs/jest.config.js --watch",
     "lint": "yarn lint-es && yarn lint-type",
     "lint-es": "eslint src --ext .tsx,.ts,.js,.jsx -c .eslintrc.js --ignore-path ./configs/.eslintignore",
     "lint-type": "tsc",
     "lint:report": "yarn lint-es -f node_modules/eslint-rich-reporter/reporter.js -o eslint-report.html",
-    "generateAnalyzeFile": "mkdir -p ./dist/assets && webpack --mode production --profile --json > ./build/static/stats.json",
+    "generateAnalyzeFile": "mkdir -p ./build/static && webpack --mode production --profile --json > ./build/static/stats.json",
     "analyze": "yarn generateAnalyzeFile && webpack-bundle-analyzer --port 8847 ./build/static/stats.json"
   },
   "bin": {

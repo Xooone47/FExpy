@@ -103,7 +103,7 @@ const devConfigs = {
     output: {
         filename: 'js/[name].[contenthash].js',
         path: path.resolve(__dirname, 'build', 'static'),
-        publicPath: '/static/',
+        publicPath: '/assets/',
     },
     devServer: {
         port: 4747,
@@ -158,12 +158,6 @@ const getConfigs = (env, argv) => {
 
     const commonConfigs = {
         entry: './src/index.js',
-        output: {
-            // contenthash不能与HotModuleReplacementPlugin共用
-            filename: mode === 'production' ? '[name].[contenthash].js' : '[name].[hash].js',
-            path: path.resolve(__dirname, 'dist', 'assets'),
-            publicPath: '/assets/',
-        },
         resolve: {
             extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
             modules: ['node_modules'],
