@@ -171,6 +171,13 @@ const getConfigs = (env, argv) => {
                 config: [__filename],
             },
         },
+        watchOptions: {
+            aggregateTimeout: 600,
+            ignored: [
+                '**/node_modules',
+                path.join(__dirname, '*.*'), // ignore the files on root dir
+            ],
+        },
         module: {
             rules: [
                 {
