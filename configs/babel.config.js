@@ -23,18 +23,6 @@ module.exports = {
             },
         ],
         [
-            'react-transform',
-            {
-                'transforms': [
-                    {
-                        'transform': 'react-transform-hmr',
-                        'imports': ['react'],
-                        'locals': ['module'],
-                    },
-                ],
-            },
-        ],
-        [
             '@babel/plugin-transform-runtime',
             {
                 'regenerator': true,

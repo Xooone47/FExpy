@@ -9,6 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
@@ -71,6 +72,7 @@ const getPlugins = mode => {
                 },
             ],
         }),
+        new ReactRefreshWebpackPlugin(),
         new ESLintPlugin({
             extensions: ['js', 'jsx', 'ts', 'tsx'],
             failOnError: false,
@@ -163,6 +165,7 @@ const getConfigs = (env, argv) => {
             modules: ['node_modules'],
             alias: {
                 '@': path.resolve(__dirname, 'src'),
+                'react-dom': '@hot-loader/react-dom',
             },
         },
         cache: {
@@ -189,6 +192,7 @@ const getConfigs = (env, argv) => {
                             options: {
                                 configFile: path.join(__dirname, 'configs/babel.config.js'),
                                 cacheDirectory: true,
+                                plugins: [isDevMode && require.resolve('react-refresh/babel')].filter(Boolean),
                             },
                         },
                     ],
@@ -197,6 +201,7 @@ const getConfigs = (env, argv) => {
                 {
                     test: /\.(less|css)$/,
                     use: [
+                        isDevMode ? 'css-hot-loader' : null, // https://github.com/webpack-contrib/mini-css-extract-plugin/issues/34#issuecomment-378594368
                         {
                             loader: MiniCssExtractPlugin.loader,
                         },
@@ -212,7 +217,7 @@ const getConfigs = (env, argv) => {
                             },
                         },
                         {
-                            loader: 'postcss-loader',
+                            loader: 'postcss-loader', // need "node": ">= 10.13.0"
                             options: {
                                 postcssOptions: {
                                     config: path.join(__dirname, 'configs', 'postcss.config.js'),
@@ -225,7 +230,7 @@ const getConfigs = (env, argv) => {
                                 javascriptEnabled: true,
                             },
                         },
-                    ],
+                    ].filter(Boolean),
                 },
                 {
                     test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
