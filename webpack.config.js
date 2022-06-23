@@ -6,8 +6,9 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
@@ -25,17 +26,29 @@ const getIsEnableCssModules = resourcePath => {
 };
 
 const getPlugins = mode => {
+    const isDevMode = mode === 'development';
+
     const commonPlugins = [
         new HtmlWebpackPlugin({
             title: 'FExpy',
             template: './src/index.html',
-            filename: mode === 'development' ? 'index.html' : '../index.html',
+            filename: isDevMode ? 'index.html' : '../index.html',
+            inject: 'body',
         }),
-        new ExtractTextPlugin({filename: 'styles.[md5:contenthash:hex:8].css'}), // 分离css文件
+        new webpack.DefinePlugin({
+            __ENV__: JSON.stringify((process.env.env || 'dev').toLowerCase()),
+        }),
+        new MiniCssExtractPlugin({
+            filename: isDevMode ? '[name].css' : 'css/[name].[contenthash].css',
+            chunkFilename: isDevMode ? '[id].css' : 'css/[id].[contenthash].css',
+            // antd bug，https://github.com/ant-design/ant-design/issues/14895，组件引入顺序可能会导致css order问题
+            // 这里忽略warning
+            ignoreOrder: true,
+        }),
+        // new ExtractTextPlugin({filename: 'styles.[md5:contenthash:hex:8].css'}), // 分离css文件
     ];
 
     const devPlugins = [
-        new webpack.NamedModulesPlugin(), // 当开启 HMR 的时候使用该插件会显示模块的相对路径，适用于开发环境
         new webpack.HotModuleReplacementPlugin(),
         new WebpackBuildNotifierPlugin({ // 构建完弹窗通知
             title: 'Project Build',
@@ -66,10 +79,24 @@ const getPlugins = mode => {
 const devConfigs = {
     devtool: 'inline-source-map',
     devServer: {
-        publicPath: '/assets/',
+        // publicPath: '/assets/',
         port: 4747,
-        inline: true,
-        quiet: true, // for friendly-errors-webpack-plugin
+        // inline: true,
+        // quiet: true, // for friendly-errors-webpack-plugin
+        static: [
+            {
+                directory: path.join(__dirname, 'public'),
+                watch: {
+                    interval: 500,
+                },
+            },
+            {
+                directory: path.join(__dirname, 'static'),
+                watch: {
+                    interval: 500,
+                },
+            },
+        ],
         historyApiFallback: {
             index: '/assets/',
             rewrites: [
@@ -85,7 +112,6 @@ const devConfigs = {
         //         secure: false
         //     }
         // },
-        hot: true,
     },
 };
 
@@ -112,6 +138,7 @@ const getConfigs = (env, argv) => {
                 {
                     test: /(\.jsx|\.js|\.ts|\.tsx)$/,
                     use: [
+                        'thread-loader',
                         {
                             loader: 'babel-loader',
                             options: {
@@ -131,69 +158,93 @@ const getConfigs = (env, argv) => {
                 },
                 {
                     test: /\.(less|css)$/,
-                    use: ExtractTextPlugin.extract({
-                        fallback: 'style-loader',
-                        use: [
-                            {
-                                loader: 'css-loader',
-                                options: {
-                                    importLoaders: 2,
-                                    modules: {
-                                        auto: getIsEnableCssModules,
-                                        localIdentName: '[path][name]__[local]--[hash:base64:5]',
-                                    },
-                                    esModule: false,
+                    use: [
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                        },
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                importLoaders: 2,
+                                modules: {
+                                    auto: getIsEnableCssModules,
+                                    localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                                },
+                                esModule: false,
+                            },
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                postcssOptions: {
+                                    config: path.join(__dirname, 'configs', 'postcss.config.js'),
                                 },
                             },
-                            {
-                                loader: 'postcss-loader',
-                                options: {
-                                    postcssOptions: {
-                                        config: path.join(__dirname, 'configs', 'postcss.config.js'),
-                                    },
-                                },
+                        },
+                        {
+                            loader: 'less-loader',
+                            options: {
+                                javascriptEnabled: true,
                             },
-                            {
-                                loader: 'less-loader',
-                                options: {
-                                    javascriptEnabled: true,
-                                },
-                            },
-                        ],
-                    }),
+                        },
+                    ],
                 },
                 {
                     test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                    loader: 'url-loader',
-                    options: {
-                        limit: 10000,
-                        name: 'img/[name].[hash:7].[ext]',
+                    loader: 'asset',
+                    parser: {
+                        dataUrlCondition: {
+                            maxSize: 10000,
+                        },
+                    },
+                    generator: {
+                        filename: 'img/[name].[hash:7][ext][query]',
                     },
                 },
                 {
                     test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-                    loader: 'url-loader',
-                    options: {
-                        limit: 10000,
-                        name: 'media/[name].[hash:7].[ext]',
+                    type: 'asset',
+                    parser: {
+                        dataUrlCondition: {
+                            maxSize: 10000,
+                        },
+                    },
+                    generator: {
+                        filename: 'media/[name].[hash:7][ext][query]',
                     },
                 },
                 {
                     test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                    loader: 'url-loader',
-                    options: {
-                        limit: 10000,
-                        name: 'fonts/[name].[hash:7].[ext]',
+                    type: 'asset',
+                    parser: {
+                        dataUrlCondition: {
+                            maxSize: 10000,
+                        },
+                    },
+                    generator: {
+                        filename: 'fonts/[name].[hash:7][ext][query]',
                     },
                 },
             ],
         },
         optimization: {
-            namedChunks: true,
+            chunkIds: 'deterministic',
+            // namedChunks: true,
             splitChunks: {
                 chunks: 'all',
-                name: true,
+                maxInitialRequests: 10,
                 cacheGroups: {
+                    react: {
+                        name: 'react',
+                        // eslint-disable-next-line
+                        test: /[\\/]node_modules[\\/](react|@hot-loader[\\/]react-dom|react-router-dom|react-redux|redux-thunk)[\\/]/,
+                        priority: 20,
+                    },
+                    antd: {
+                        name: 'antd',
+                        test: /[\\/]node_modules[\\/](antd|@ant-design)[\\/]/,
+                        priority: 10,
+                    },
                     vendors: {
                         name: 'vendors',
                         test: /[\\/]node_modules[\\/]/,
