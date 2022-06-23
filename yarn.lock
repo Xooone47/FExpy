@@ -9281,10 +9281,10 @@ rechoir@^0.7.0:
   dependencies:
     resolve "^1.9.0"
 
-recoil@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.nlark.com/recoil/download/recoil-0.4.1.tgz#1cb2171bc98d41361507131a059d7c3525d8c4fe"
-  integrity sha1-HLIXG8mNQTYVBxMaBZ18NSXYxP4=
+recoil@^0.7.4:
+  version "0.7.4"
+  resolved "https://registry.npmmirror.com/recoil/-/recoil-0.7.4.tgz#d6508fa656d9c93e66fdf334e1f723a9e98801cf"
+  integrity sha512-sCXvQGMfSprkNU4ZRkJV4B0qFQSURJMgsICqY1952WRlg66NMwYqi6n67vhnhn0qw4zHU1gHXJuMvRDaiRNFZw==
   dependencies:
     hamt_plus "1.0.2"
 
