@@ -6,13 +6,15 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-// const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const {merge} = require('webpack-merge');
+
+const useSpeedMeasure = false;
 
 const getIsEnableCssModules = resourcePath => {
     const relativePath = path.relative(__dirname, resourcePath);
@@ -45,23 +47,43 @@ const getPlugins = mode => {
             // 这里忽略warning
             ignoreOrder: true,
         }),
-        // new ExtractTextPlugin({filename: 'styles.[md5:contenthash:hex:8].css'}), // 分离css文件
     ];
 
     const devPlugins = [
-        new webpack.HotModuleReplacementPlugin(),
+        // new webpack.HotModuleReplacementPlugin(),    // TODO
         new WebpackBuildNotifierPlugin({ // 构建完弹窗通知
             title: 'Project Build',
             suppressSuccess: false,
-        }),
-        new BundleAnalyzerPlugin({
-            analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
-            generateStatsFile: false, // 是否生成stats.json文件
         }),
         new FriendlyErrorsWebpackPlugin({
             compilationSuccessInfo: {
                 messages: ['App is running on: http://localhost:4747'],
                 clearConsole: false,
+            },
+            additionalTransformers: [
+                error => {
+                    if (error.name === 'ESLintError') {
+                        return Object.assign({}, error, {
+                            type: 'quiet-eslint-error', // 定义特殊的type，使其匹配不上任何formatter，则不会打印到控制台
+                        });
+                    }
+                    return error;
+                },
+            ],
+        }),
+        new ESLintPlugin({
+            extensions: ['js', 'jsx', 'ts', 'tsx'],
+            failOnError: false,
+        }),
+        new ForkTsCheckerWebpackPlugin({
+            typescript: {
+                diagnosticOptions: {
+                    semantic: true,
+                    syntactic: true,
+                },
+            },
+            logger: {
+                devServer: false,
             },
         }),
     ];
@@ -78,11 +100,14 @@ const getPlugins = mode => {
 
 const devConfigs = {
     devtool: 'inline-source-map',
+    output: {
+        filename: 'js/[name].[contenthash].js',
+        path: path.resolve(__dirname, 'build', 'static'),
+        publicPath: '/static/',
+    },
     devServer: {
-        // publicPath: '/assets/',
         port: 4747,
-        // inline: true,
-        // quiet: true, // for friendly-errors-webpack-plugin
+        host: '0.0.0.0',
         static: [
             {
                 directory: path.join(__dirname, 'public'),
@@ -112,11 +137,24 @@ const devConfigs = {
         //         secure: false
         //     }
         // },
+        hot: true,
+        client: {
+            overlay: false,
+        },
+    },
+};
+
+const prodConfigs = {
+    output: {
+        filename: 'js/[name].[contenthash].js',
+        path: path.resolve(__dirname, 'build', 'static'),
+        publicPath: '/static/',
     },
 };
 
 const getConfigs = (env, argv) => {
     const {mode} = argv;
+    const isDevMode = mode === 'development';
 
     const commonConfigs = {
         entry: './src/index.js',
@@ -133,6 +171,12 @@ const getConfigs = (env, argv) => {
                 '@': path.resolve(__dirname, 'src'),
             },
         },
+        cache: {
+            type: 'filesystem',
+            buildDependencies: {
+                config: [__filename],
+            },
+        },
         module: {
             rules: [
                 {
@@ -144,13 +188,6 @@ const getConfigs = (env, argv) => {
                             options: {
                                 configFile: path.join(__dirname, 'configs/babel.config.js'),
                                 cacheDirectory: true,
-                            },
-                        },
-                        {
-                            loader: 'eslint-loader',
-                            options: {
-                                // cache: true,
-                                configFile: path.join(__dirname, '.eslintrc.js'),
                             },
                         },
                     ],
@@ -237,7 +274,7 @@ const getConfigs = (env, argv) => {
                     react: {
                         name: 'react',
                         // eslint-disable-next-line
-                        test: /[\\/]node_modules[\\/](react|@hot-loader[\\/]react-dom|react-router-dom|react-redux|redux-thunk)[\\/]/,
+                        test: /[\\/]node_modules[\\/](react|redux|recoil|react-dom|react-router|@hot-loader[\\/]react-dom|react-router-dom|react-redux|redux-thunk)[\\/]/,
                         priority: 20,
                     },
                     antd: {
@@ -261,11 +298,16 @@ const getConfigs = (env, argv) => {
         plugins: getPlugins(mode),
     };
 
-    if (mode === 'development') {
-        return merge(commonConfigs, devConfigs);
-    } else {
-        return commonConfigs;
+    const targetConfigs = isDevMode ? devConfigs : prodConfigs;
+
+    let result = merge(commonConfigs, targetConfigs);
+
+    if (useSpeedMeasure) {
+        const smp = new SpeedMeasurePlugin();
+        result = smp.wrap(result);
     }
+
+    return result;
 };
 
 module.exports = getConfigs;
