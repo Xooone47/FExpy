@@ -98,6 +98,7 @@
     "axios": "^0.21.1",
     "classnames": "^2.2.5",
     "commander": "^5.1.0",
+    "copy-to-clipboard": "^3.3.1",
     "immer": "^9.0.15",
     "lodash": "^4.17.19",
     "lodash-decorators": "^4.5.0",

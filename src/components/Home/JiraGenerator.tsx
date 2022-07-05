@@ -1,6 +1,7 @@
-import {Input, InputNumber, Button, List, Divider} from 'antd';
+import {Input, InputNumber, Button, List, Divider, message} from 'antd';
 import {useCallback, useState} from 'react';
 import {cloneDeep, partial} from 'lodash';
+import copy from 'copy-to-clipboard';
 // why unresolved
 // eslint-disable-next-line import/no-unresolved
 import {produce} from 'immer';
@@ -30,11 +31,11 @@ const JiraGenerator = () => {
 
     const handleRowChange = useCallback(
         (index: number, key: string, value: string | number) => {
-            const result = produce(list, draft => {
+            const newList = produce(list, draft => {
                 const target = draft[index];
                 target[key] = value;
             });
-            setList(result);
+            setList(newList);
         },
         [list]
     );
@@ -44,6 +45,16 @@ const JiraGenerator = () => {
             handleRowChange(index, key, e.target.value);
         },
         [handleRowChange]
+    );
+
+    const handleDelete = useCallback(
+        (index: number) => {
+            const newList = produce(list, draft => {
+                draft.splice(index, 1);
+            });
+            setList(newList);
+        },
+        [list]
     );
 
     const handleGenerateClick = useCallback(
@@ -57,8 +68,17 @@ const JiraGenerator = () => {
         [list]
     );
 
+    const handleCopy = useCallback(
+        index => {
+            const target = result[index];
+            copy(target);
+            message.success('Copied');
+        },
+        [result]
+    );
+
     return (
-        <div>
+        <div style={{padding: 20}}>
             <Divider orientation="left">Jira Generator</Divider>
             <List
                 dataSource={list}
@@ -95,6 +115,15 @@ const JiraGenerator = () => {
                                     step={0.5}
                                 />
                             </div>
+                            <div>
+                                <Button
+                                    danger
+                                    type="link"
+                                    onClick={partial(handleDelete, index)}
+                                >
+                                    Delete
+                                </Button>
+                            </div>
                         </List.Item>
                     );
                 }}
@@ -108,8 +137,9 @@ const JiraGenerator = () => {
                     dataSource={result}
                     // eslint-disable-next-line react/jsx-no-bind
                     renderItem={(item, index) => (
-                        <List.Item key={index}>
+                        <List.Item key={index} style={{justifyContent: 'flex-start'}}>
                             <pre>{item}</pre>
+                            <Button style={{marginLeft: 30}} onClick={partial(handleCopy, index)}>Copy</Button>
                         </List.Item>
                     )}
                 />
