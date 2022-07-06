@@ -19,9 +19,10 @@ module.exports = {
     },
     extends: [
         'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
         'plugin:import/errors',
         'plugin:import/warnings',
-        'plugin:@typescript-eslint/recommended',
+        'plugin:import/typescript',
     ],
     settings: {
         'react': {
@@ -42,6 +43,11 @@ module.exports = {
             {'groups': ['builtin', 'object', 'external', 'internal', 'parent', 'index', 'sibling']},
         ],
         'import/no-unresolved': 2,
+        'import/no-absolute-path': 2, // 禁止从绝对路径中导入
+        'import/no-self-import': 2, // 禁止模块导入自己
+        'import/no-duplicates': 2, // 禁止多次从同一个模块中导入
+        'import/export': 2, // 禁止无效导出
+
 
         // react hook rules
         'react-hooks/rules-of-hooks': 2,
